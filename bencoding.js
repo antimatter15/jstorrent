@@ -14,7 +14,7 @@ function bdecode(x){
   }
 
   function decode_string(x, f){
-    colon = x.indexOf(':', f);
+    var colon = x.indexOf(':', f);
     n = parseInt(x.substring(f, colon));
     if(x[f] == '0' && colon != f+1){
       throw "ValueError";
