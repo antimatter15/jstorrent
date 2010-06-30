@@ -2,11 +2,11 @@
 <script src="bencoding.js"></script>
 <script>
 function handleFiles(files){
-  files[0]
   var reader = new FileReader();
-  reader.onload = function(){
+  reader.onload = function(data){
+    window.torrent = bdecode(data.target.result);
   }
-  reader.readAs
+  reader.readAsText(files[0])
 }
 
 
