@@ -71,7 +71,6 @@ function bdecode(x){
     throw "Not a valid bencoded string"
   }
   if(l != x.length){
-    console.log(l, r, x);
     throw("invalid bencoded value (data after valid prefix)")
   }
   return r
@@ -120,7 +119,6 @@ function bencode(x){
     for(var l = ilist.length, i = 0; i < l; i++){
       var k = ilist[i], v = x[k];
       r = r.concat([k.length.toString(), ':', k]);
-      console.log(v);
       encode_func[type(v)](v);
     }
     r.push('e');
@@ -135,5 +133,10 @@ function bencode(x){
 
   encode_func[type(x)](x, r)
   return r.join('')
+}
+
+if(exports){
+  exports.encode = bencode;
+  exports.decode = bdecode;
 }
 
