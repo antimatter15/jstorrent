@@ -101,6 +101,8 @@ function requestTracker(torrent){
         peers[i].peer_choking = 1;
         peers[i].peer_interested = 0;
         
+//handshake: "\x13BitTorrent protocol\x00\x00\x00\x00\x00\x00\x00\x00"+info_hash+peer_id
+
         peer_db[peers[i].ip + ':' + peers[i].port] = peers[i];
         
       }
