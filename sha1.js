@@ -162,6 +162,8 @@ function rstr2any(input, encoding)
  */
 function str2rstr_utf8(input)
 {
+  return input;
+  //that was easy
   var output = "";
   var i = -1;
   var x, y;
@@ -201,6 +203,9 @@ function str2rstr_utf8(input)
  */
 function str2rstr_utf16le(input)
 {
+  return input;
+  
+  //that was easy
   var output = "";
   for(var i = 0; i < input.length; i++)
     output += String.fromCharCode( input.charCodeAt(i)        & 0xFF,
@@ -210,6 +215,9 @@ function str2rstr_utf16le(input)
 
 function str2rstr_utf16be(input)
 {
+  return input;
+  
+  //that was easy
   var output = "";
   for(var i = 0; i < input.length; i++)
     output += String.fromCharCode((input.charCodeAt(i) >>> 8) & 0xFF,
@@ -327,4 +335,9 @@ function safe_add(x, y)
 function bit_rol(num, cnt)
 {
   return (num << cnt) | (num >>> (32 - cnt));
+}
+
+if(exports){
+  exports.rstr_sha1 = rstr_sha1;
+  exports.hex_sha1 = hex_sha1;
 }
