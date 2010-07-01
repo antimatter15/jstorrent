@@ -27,6 +27,9 @@ var peerid = ('-JS0001-'+Math.random().toString(36).substr(3)
                        +Math.random().toString(36).substr(3))
               .substr(0, 20);
 
+var peer_db = {}; //assoc IP:PORT -> {am_choking, am_interested, peer_choking, peer_interested, peer_id}
+
+
 function hash(str){
   return sha1.rstr_sha1(str);
 }
@@ -77,17 +80,29 @@ function requestTracker(torrent){
       var data = bencode.decode(everything);
       var peers = [];
       if(typeof data.peers == 'string'){
+        sys.puts('PEER STRING BINARY FORMAT')
         for(var i = 0; i < data.peers.length; i+= 6){
           var z = data.peers.substr(i, 6);
           var IP = z.substr(0,4).split('').map(function(e){
             return e.charCodeAt(0);
           }).join('.');
           
-          var port = z.charCodeAt(4) * Math.pow(2,8) + z.charCodeAt(5); //aaaaaaaaaaarrrrghhhh is this right?
+          var port = z.charCodeAt(4) * (Math.pow(2,8)-1) + z.charCodeAt(5); //aaaaaaaaaaarrrrghhhh is this right?
           peers.push({'peer id': '', ip: IP, port: port});
         }
       }else{
+      sys.puts('PEER DICTIONARY MAGICAL FORMAT')
         peers = data.peers;
+      }
+      
+      for(var i = 0; i < peers.length; i++){
+        peers[i].am_choking = 1;
+        peers[i].am_interested = 0;
+        peers[i].peer_choking = 1;
+        peers[i].peer_interested = 0;
+        
+        peer_db[peers[i].ip + ':' + peers[i].port] = peers[i];
+        
       }
       
       sys.puts(JSON.stringify(peers));
